@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Aprendizaje Interactiva - Desafíos Ambientales (SENA)</title>
+    <!-- Tailwind CSS para un diseño moderno y responsive -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sena: {
+                            green: '#39A900', // Verde oficial SENA
+                            dark: '#0B2900',
+                            light: '#E8F5E9',
+                            focus: '#005D00'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Estilos adicionales para accesibilidad, animaciones y soporte de alto contraste -->
+    <style>
+        /* Estilos de enfoque de accesibilidad mejorados (WCAG 2.1) */
+        *:focus-visible {
+            outline: 4px solid #39A900 !important;
+            outline-offset: 2px !important;
+        }
+        /* Transiciones suaves entre secciones */
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Contenedores de residuos (Colores oficiales Colombia Res 2184/2020) */
+        .bin-white { border: 3px solid #D1D5DB; background-color: #FFFFFF; color: #1F2937; }
+        .bin-black { border: 3px solid #111827; background-color: #1F2937; color: #FFFFFF; }
+        .bin-green { border: 3px solid #047857; background-color: #065F46; color: #FFFFFF; }
+        .bin-red { border: 3px solid #DC2626; background-color: #991B1B; color: #FFFFFF; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col antialiased">
+
+    <!-- ACCESIBILIDAD: Enlace de salto directo al contenido (Skip Link) -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:p-4 focus:bg-sena-green focus:text-white focus:z-50 rounded-b-lg">
+        Saltar al contenido principal
+    </a>
+
+    <!-- ANUNCIADOR DE ESTADO EN VIVO (WCAG 4.1.3 - Mensajes de estado sin cambio de foco) -->
+    <div id="aria-state-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- CABECERA INSTITUCIONAL SENA -->
+    <header class="bg-white border-b-4 border-sena-green shadow-sm py-4 px-6 sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <!-- Logotipo del SENA optimizado mediante SVG interactivo -->
+                <svg class="h-14 w-14 text-sena-green" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true">
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="8"/>
+                    <circle cx="50" cy="30" r="10"/>
+                    <path d="M25,75 Q50,45 75,75" stroke="currentColor" stroke-width="8" fill="none" stroke-linecap="round"/>
+                </svg>
+                <div>
+                    <span class="text-xs font-bold tracking-widest text-slate-500 uppercase block">Formación Profesional Integral</span>
+                    <h1 class="text-xl font-extrabold text-slate-800">Centro de Gestión Industrial - SENA</h1>
+                </div>
+            </div>
+            
+            <!-- Barra de Progreso Global del Aprendizaje -->
+            <div class="w-full sm:w-64 bg-slate-200 rounded-full h-4 relative overflow-hidden" aria-hidden="true">
+                <div id="global-progress" class="bg-sena-green h-full w-[10%] transition-all duration-500 ease-out" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                <span id="progress-text" class="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-slate-700">Progreso: 10%</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- NAVEGACIÓN Y CONTENIDO PRINCIPAL -->
+    <main id="main-content" class="flex-grow max-w-6xl w-full mx-auto p-4 sm:p-6 md:p-8" tabindex="-1">
+        
+        <!-- INDICADORES DE FASES PEDAGÓGICAS (MENÚ DE PASOS) -->
+        <nav class="mb-8" aria-label="Fases del Microaprendizaje">
+            <ul class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center text-sm font-semibold">
+                <li>
+                    <button onclick="goToSection('micro1')" id="nav-micro1" class="w-full py-3 px-4 rounded-lg bg-sena-green text-white border-b-4 border-green-800 flex items-center justify-center gap-2 transition" aria-current="page">
+                        <span class="bg-white text-sena-green rounded-full w-5 h-5 flex items-center justify-center text-xs">1</span>
+                        <span>El Reto (5 min)</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="goToSection('micro2')" id="nav-micro2" class="w-full py-3 px-4 rounded-lg bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 flex items-center justify-center gap-2 transition">
+                        <span class="bg-slate-200 text-slate-700 rounded-full w-5 h-5 flex items-center justify-center text-xs">2</span>
+                        <span>El Contenido (10 min)</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="goToSection('micro3')" id="nav-micro3" class="w-full py-3 px-4 rounded-lg bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 flex items-center justify-center gap-2 transition">
+                        <span class="bg-slate-200 text-slate-700 rounded-full w-5 h-5 flex items-center justify-center text-xs">3</span>
+                        <span>La Aplicación (10 min)</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="goToSection('micro4')" id="nav-micro4" class="w-full py-3 px-4 rounded-lg bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 flex items-center justify-center gap-2 transition">
+                        <span class="bg-slate-200 text-slate-700 rounded-full w-5 h-5 flex items-center justify-center text-xs">4</span>
+                        <span>Evaluación (5 min)</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- ==================== MICRO 1: EL RETO ==================== -->
+        <!-- Gagné 1: Captar la atención | Gagné 2: Estimular conocimientos previos + Evaluación Diagnóstica -->
+        <section id="micro1" class="fade-in space-y-6">
+            <!-- Banner Motivacional del Reto -->
+            <div class="bg-slate-900 text-white rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-10">
+                    <svg class="w-48 h-48" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                </div>
+                <div class="relative z-10 max-w-3xl">
+                    <span class="bg-red-500 text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3 inline-block">Hecho Crítico del Sector Productivo</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold mb-4">¿Sabías que más del 60% de los residuos industriales en Colombia se gestionan de manera inadecuada?</h2>
+                    <p class="text-slate-300 text-base md:text-lg leading-relaxed mb-4">
+                        Esto provoca sanciones millonarias a las empresas, contaminación irreversible de acuíferos y un aumento devastador de la huella de carbono de la industria nacional.
+                    </p>
+                    <hr class="border-slate-800 my-4" />
+                    <p class="text-sm text-sena-green font-bold">🎯 Objetivo de esta sesión: En 30 minutos aprenderás a clasificar residuos y mitigar la huella de carbono de forma automatizada.</p>
+                </div>
+            </div>
+
+            <!-- CARD EXCLUSIVO: El Desafío del Día (DUA: Confort visual y claridad) -->
+            <div class="bg-amber-50 border-l-8 border-amber-500 p-6 rounded-r-xl shadow-md" role="region" aria-labelledby="desafio-titulo">
+                <div class="flex gap-4 items-start">
+                    <div class="bg-amber-100 p-3 rounded-lg text-amber-800">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 id="desafio-titulo" class="text-lg font-bold text-amber-900">🚨 EL DESAFÍO DEL DÍA: El desastre de "EcoInd"</h3>
+                        <p class="text-slate-700 mt-2 text-sm md:text-base">
+                            Has sido contratado como Técnico en Gestión Ambiental en el taller metalmecánico <strong>"EcoInd"</strong>. El taller tiene un desorden crítico de residuos: restos de pintura (químicos), metales reciclables, residuos de alimentos de los trabajadores y plásticos sucios se mezclan sin control. Además, la maquinaria opera sin control de eficiencia energética.
+                        </p>
+                        <p class="text-slate-800 font-bold mt-3 text-sm">
+                            ¿Tu reto? Diseñar un plan de acción inmediato y clasificar adecuadamente todos los residuos para evitar una clausura inminente.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIDEO DE APOYO: Ubicado inmediatamente después del Desafío del Día -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-4">
+                <div class="border-b border-slate-100 pb-2">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        🎥 Video Introducción: Contexto de Desafíos Ambientales Industriales
+                    </h3>
+                    <p class="text-xs text-slate-500">Visualiza esta contextualización del sector metalmecánico para comprender la magnitud del reto.</p>
+                </div>
+                
+                <div class="relative aspect-video max-w-3xl mx-auto rounded-lg overflow-hidden border border-slate-200 shadow bg-slate-950">
+                    <video class="w-full h-full" controls aria-label="Video introductorio sobre los desafíos ambientales de EcoInd">
+                        <source src="VIDEO/Diseño sin título.mp4" type="video/mp4">
+                        <div class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center text-white bg-slate-900 bg-opacity-95">
+                            <span class="text-4xl mb-2">🎞️</span>
+                            <p class="text-sm font-bold">Video Introductorio: "Diseño sin título.mp4"</p>
+                            <p class="text-xs text-slate-400 mt-2 max-w-md">
+                                Su navegador no puede reproducir el video directamente, o el archivo local en <code class="bg-slate-800 px-1 py-0.5 rounded text-amber-400">VIDEO/Diseño sin título.mp4</code> aún no ha sido cargado en el entorno de ejecución.
+                            </p>
+                        </div>
+                    </video>
+                </div>
+                
+                <!-- Soporte DUA: Transcripción -->
+                <div class="bg-slate-50 p-3 rounded-lg text-xs border border-slate-200">
+                    <span class="font-bold text-slate-700 block mb-1">📢 Transcripción Breve / Contenido Clave del Video:</span>
+                    <p class="text-slate-600 leading-relaxed">
+                        Este recurso audiovisual presenta un recorrido por las plantas de producción que sufren por la falta de clasificación de residuos. Se observa cómo los residuos peligrosos contaminan suelos y agua limpia, y cómo la implementación de sensores y un buen plan ambiental rescata la rentabilidad de las industrias colombianas.
+                    </p>
+                </div>
+            </div>
+
+            <!-- EVALUACIÓN DIAGNÓSTICA (WCAG 2.5.3 - Nombre Accesible e Identificación Clara) -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6" role="region" aria-labelledby="eval-diag-title">
+                <div class="border-b border-slate-100 pb-3 mb-4">
+                    <h3 id="eval-diag-title" class="text-md font-bold text-slate-800 flex items-center gap-2">
+                        📋 Sondeo de Saberes Previos (Evaluación Diagnóstica)
+                    </h3>
+                    <p class="text-xs text-slate-500">Esta prueba inicial no otorga puntos. Sirve para identificar tus conocimientos previos sobre clasificación de residuos.</p>
+                </div>
+
+                <!-- Formulario diagnótico con identificadores accesibles -->
+                <form id="diagnostic-form" onsubmit="submitDiagnostic(event)" class="space-y-4">
+                    <fieldset class="space-y-3">
+                        <legend id="diag-question" class="text-sm font-bold text-slate-700">
+                            Frente al caos inicial de residuos peligrosos mezclados con plásticos reciclables en el taller EcoInd, ¿cuál de las siguientes acciones crees que se debe ejecutar primero?
+                        </legend>
+                        
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer text-sm transition">
+                                <input type="radio" name="diag-choice" value="choice-a" class="accent-sena-green" aria-describedby="diag-desc-a" required>
+                                <div>
+                                    <span class="font-semibold block" id="diag-desc-a">Opción A: Clasificar y separar de inmediato en la fuente.</span>
+                                    <span class="text-xs text-slate-500">Separar los disolventes de los metales en recipientes independientes.</span>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer text-sm transition">
+                                <input type="radio" name="diag-choice" value="choice-b" class="accent-sena-green" aria-describedby="diag-desc-b">
+                                <div>
+                                    <span class="font-semibold block" id="diag-desc-b">Opción B: Almacenar temporalmente todo en un único contenedor general.</span>
+                                    <span class="text-xs text-slate-500">Guardar todo mezclado y esperar la llegada de una empresa recolectora externa.</span>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer text-sm transition">
+                                <input type="radio" name="diag-choice" value="choice-c" class="accent-sena-green" aria-describedby="diag-desc-c">
+                                <div>
+                                    <span class="font-semibold block" id="diag-desc-c">Opción C: Lavar todos los residuos con agua y desecharlos por el alcantarillado directo.</span>
+                                    <span class="text-xs text-slate-500">Lavar los envases de pintura para remover trazas químicas rápidamente.</span>
+                                </div>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <!-- Botón de Envío Diagnóstico -->
+                    <button type="submit" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-2 px-5 rounded-lg text-sm transition shadow-sm" aria-label="Enviar sondeo de saberes previos">
+                        Enviar Sondeo Inicial
+                    </button>
+                </form>
+
+                <!-- Retroalimentación Diagnóstica Neutral -->
+                <div id="diagnostic-feedback" class="mt-4 p-4 rounded-lg bg-emerald-50 border border-emerald-200 hidden" role="alert">
+                    <p class="text-sm text-slate-800 font-medium">
+                        <strong>¡Muchas gracias por tu participación!</strong> Tu respuesta demuestra el valor de tu intuición y saberes previos en el taller. Para confirmar cuál de estas decisiones está respaldada por la legislación nacional, continuemos al **Micro 2: Contenido Técnico**, donde estudiaremos la Resolución 2184 de 2020 y el manejo de sustancias químicas industriales.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Botón de Navegación del Aprendiz -->
+            <div class="flex justify-end pt-4">
+                <button onclick="goToSection('micro2')" class="bg-sena-green hover:bg-sena-focus text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all flex items-center gap-2">
+                    Comenzar con el Contenido Técnico
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+            </div>
+        </section>
+
+
+        <!-- ==================== MICRO 2: EL CONTENIDO ==================== -->
+        <!-- Gagné 3: Informar objetivos | Gagné 4: Presentar contenido | Gagné 5: Orientar aprendizaje + Evaluación Formativa -->
+        <section id="micro2" class="fade-in space-y-6 hidden">
+            
+            <!-- Declaración de Objetivos (SENA) -->
+            <div class="bg-sena-light border-l-4 border-sena-green p-4 rounded-r-lg shadow-sm">
+                <span class="text-xs font-bold text-sena-green uppercase tracking-wider block">Resultado de Aprendizaje (RAP)</span>
+                <div class="mt-1">
+                    <p class="text-sm text-sena-dark font-medium leading-relaxed">
+                        <strong>Competencia:</strong> Controlar los impactos ambientales en los procesos productivos de acuerdo con la normatividad ambiental vigente (Resolución 2184 de 2020 y normativa de residuos peligrosos RESPEL).
+                    </p>
+                    <p class="text-xs text-emerald-800 mt-2">
+                        *Enfoque especial: Técnicas de biorremediación y reutilización de recursos hídricos en el sector productivo industrial.
+                    </p>
+                </div>
+            </div>
+
+            <!-- IMAGEN: Ubicada después del RAP -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col md:flex-row gap-6 items-center">
+                <div class="flex-grow">
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">Fundamentos de Biorremediación para Aguas Industriales</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed mb-3">
+                        La biorremediación es una biotecnología clave para cumplir con el RAP de control de impactos ambientales. Utiliza consorcios bacterianos y microorganismos especializados para degradar compuestos orgánicos persistentes, aceites solubles y metales de las aguas de lavado metalmecánico antes de su reutilización.
+                    </p>
+                    <span class="text-xs font-bold text-sena-green uppercase tracking-wider block">Esquema del Proceso:</span>
+                </div>
+                <!-- Integración de Imagen con fallbacks de accesibilidad (DUA) -->
+                <div class="w-full md:w-64 flex-shrink-0 flex justify-center">
+                    <img src="IMAGENES/Biorremediación_para_tratamiento_de_aguas.png" 
+                         alt="" 
+                         class="rounded-lg shadow-md max-w-full h-auto border-2 border-sena-green bg-white p-1"
+                         onerror="this.onerror=null; this.outerHTML='<div class=\'bg-emerald-50 border-2 border-dashed border-sena-green text-sena-dark rounded-lg p-4 text-center text-xs font-bold w-full\'><span class=\'block text-2xl mb-2\'>🚰</span>Biorremediación de Aguas<br><span class=\'text-[10px] text-slate-500 font-normal\'>[Visualización de Esquema Técnico]</span></div>';">
+                </div>
+            </div>
+
+            <!-- Pestañas Interactivas (Tabs para organizar la teoría sin saturación - WCAG Accesible) -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <!-- Encabezado de Navegación de Tabs -->
+                <div class="flex border-b border-slate-200 bg-slate-50" role="tablist" aria-label="Temas de Estudio">
+                    <button id="tab-btn-1" onclick="switchTab(1)" class="flex-1 py-4 px-4 text-center font-bold text-sena-green border-b-2 border-sena-green focus:bg-white" role="tab" aria-selected="true" aria-controls="panel-1">
+                        1. Código de Colores (Res. 2184)
+                    </button>
+                    <button id="tab-btn-2" onclick="switchTab(2)" class="flex-1 py-4 px-4 text-center font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-700 hover:bg-slate-100" role="tab" aria-selected="false" aria-controls="panel-2" tabindex="-1">
+                        2. Residuos Peligrosos (RESPEL)
+                    </button>
+                    <button id="tab-btn-3" onclick="switchTab(3)" class="flex-1 py-4 px-4 text-center font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-700 hover:bg-slate-100" role="tab" aria-selected="false" aria-controls="panel-3" tabindex="-1">
+                        3. Mitigación y Huella de Carbono
+                    </button>
+                </div>
+
+                <!-- CONTENIDOS DE LAS PESTAÑAS -->
+                <!-- Pestaña 1: Código de Colores -->
+                <div id="panel-1" class="p-6 space-y-4" role="tabpanel" aria-labelledby="tab-btn-1">
+                    <h3 class="text-xl font-bold text-slate-800">Clasificación Unificada en Colombia (Resolución 2184/2020)</h3>
+                    <p class="text-slate-600 text-sm">Desde el año 2021, rige en todo el territorio nacional un código unificado de colores para separar los residuos en la fuente. Esto simplifica los procesos de reciclaje industrial:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 flex flex-col items-center text-center">
+                            <div class="w-12 h-12 rounded-full bg-white border-2 border-slate-400 flex items-center justify-center mb-2 font-bold text-slate-800 text-lg">Blanco</div>
+                            <h4 class="font-bold text-slate-800 text-sm">Residuos Aprovechables</h4>
+                            <p class="text-xs text-slate-500 mt-1">Plástico, cartón, vidrio, papel y metales limpios y secos.</p>
+                        </div>
+                        <div class="p-4 rounded-lg bg-slate-900 border border-slate-800 flex flex-col items-center text-center text-white">
+                            <div class="w-12 h-12 rounded-full bg-slate-800 border-2 border-slate-600 flex items-center justify-center mb-2 font-bold text-white text-lg">Negro</div>
+                            <h4 class="font-bold text-slate-200 text-sm">Residuos No Aprovechables</h4>
+                            <p class="text-xs text-slate-400 mt-1">Servilletas, papel higiénico, cartón contaminado con comida, papeles metalizados.</p>
+                        </div>
+                        <div class="p-4 rounded-lg bg-emerald-50 border border-emerald-200 flex flex-col items-center text-center">
+                            <div class="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center mb-2 font-bold text-lg">Verde</div>
+                            <h4 class="font-bold text-emerald-900 text-sm">Orgánicos Aprovechables</h4>
+                            <p class="text-xs text-emerald-700 mt-1">Restos de comida, desechos agrícolas, cortes de césped y podas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pestaña 2: RESPEL -->
+                <div id="panel-2" class="p-6 space-y-4 hidden" role="tabpanel" aria-labelledby="tab-btn-2">
+                    <h3 class="text-xl font-bold text-slate-800">Residuos Peligrosos (RESPEL)</h3>
+                    <p class="text-slate-600 text-sm">
+                        En el sector industrial, los residuos peligrosos son aquellos que poseen propiedades de toxicidad, inflamabilidad, reactividad, corrosividad, explosividad o patogenicidad.
+                    </p>
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4 flex gap-3 items-start">
+                        <span class="text-xl">⚠️</span>
+                        <div>
+                            <h4 class="font-bold text-red-900 text-sm">Contenedor Rojo de Seguridad</h4>
+                            <p class="text-xs text-red-700 mt-1">
+                                En el contexto productivo, estos residuos deben ser confinados en recipientes de color <strong>Rojo</strong>, debidamente etiquetados y entregados únicamente a gestores autorizados con licencia ambiental corporativa.
+                            </p>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 text-xs italic">Ejemplos comunes en talleres: Envases de disolventes, filtros de aceite usados, trapos impregnados de grasa, lodos de galvanoplastia y residuos hospitalarios.</p>
+                </div>
+
+                <!-- Pestaña 3: Huella de Carbono -->
+                <div id="panel-3" class="p-6 space-y-4 hidden" role="tabpanel" aria-labelledby="tab-btn-3">
+                    <h3 class="text-xl font-bold text-slate-800">Cálculo de Huella de Carbono y Eficiencia Energética</h3>
+                    <p class="text-slate-600 text-sm">
+                        La huella de carbono se mide en toneladas equivalentes de dióxido de carbono ($CO_2e$). En la industria metalmecánica, las principales emisiones provienen de:
+                    </p>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3 p-2 bg-slate-50 rounded-lg">
+                            <span class="p-2 bg-sena-green text-white text-xs font-bold rounded">Alcance 1</span>
+                            <span class="text-xs text-slate-700">Emisiones Directas: Combustión de hornos, uso de combustibles en vehículos propios.</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-2 bg-slate-50 rounded-lg">
+                            <span class="p-2 bg-blue-600 text-white text-xs font-bold rounded">Alcance 2</span>
+                            <span class="text-xs text-slate-700">Emisiones Indirectas por Electricidad: Consumo eléctrico de maquinaria como tornos CNC, fresadoras y soldaduras.</span>
+                        </div>
+                    </div>
+                    <div class="bg-amber-50 p-4 rounded-lg border border-amber-200 mt-4">
+                        <h4 class="font-bold text-amber-800 text-sm flex items-center gap-2">
+                            💡 Fórmula simplificada de Emisión:
+                        </h4>
+                        <p class="text-xs text-amber-950 mt-1">
+                            $$\text{Emisión } (kg\ CO_2) = \text{Consumo de energía } (kWh) \times \text{Factor de Emisión del País } \left(\frac{kg\ CO_2}{kWh}\right)$$
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EVALUACIÓN FORMATIVA (Cuestionario interactivo con retroalimentación inmediata, diferida y de estado) -->
+            <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm" role="region" aria-labelledby="eval-form-title">
+                <div class="border-b border-slate-100 pb-3 mb-4">
+                    <h3 id="eval-form-title" class="text-md font-bold text-slate-800 flex items-center gap-2">
+                        🧠 Cuestionario de Aprendizaje Formativo (Suma puntos globales)
+                    </h3>
+                    <p class="text-xs text-slate-500">Cada respuesta correcta suma 10 puntos a tu marcador global. Si fallas, el sistema te sugerirá qué material repasar.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Pregunta Formativa 1 -->
+                    <div class="space-y-3" id="form-q1-container">
+                        <h4 class="text-sm font-bold text-slate-700">1. Un trapo industrial impregnado con aceite de motor usado del taller debe disponerse en:</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <button onclick="checkFormative(1, 'A')" id="q1-opt-A" class="p-3 text-left border border-slate-200 rounded-lg hover:bg-slate-50 text-xs font-semibold transition focus:ring-2 focus:ring-sena-green">
+                                Contenedor Negro (No aprovechable)
+                            </button>
+                            <button onclick="checkFormative(1, 'B')" id="q1-opt-B" class="p-3 text-left border border-slate-200 rounded-lg hover:bg-slate-50 text-xs font-semibold transition focus:ring-2 focus:ring-sena-green">
+                                Contenedor Rojo (Peligrosos - RESPEL)
+                            </button>
+                            <button onclick="checkFormative(1, 'C')" id="q1-opt-C" class="p-3 text-left border border-slate-200 rounded-lg hover:bg-slate-50 text-xs font-semibold transition focus:ring-2 focus:ring-sena-green">
+                                Contenedor Blanco (Aprovechables)
+                            </button>
+                        </div>
+                        <!-- Retroalimentación inmediata -->
+                        <div id="q1-feedback" class="p-3 rounded-lg text-xs font-bold hidden flex items-center gap-2" role="alert"></div>
+                    </div>
+
+                    <!-- Pregunta Formativa 2 -->
+                    <div class="space-y-3" id="form-q2-container">
+                        <h4 class="text-sm font-bold text-slate-700">2. En el cálculo de huella de carbono, ¿cuál de los siguientes consumos representa emisiones de Alcance 2 (Indirectas)?</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <button onclick="checkFormative(2, 'A')" id="q2-opt-A" class="p-3 text-left border border-slate-200 rounded-lg hover:bg-slate-50 text-xs font-semibold transition focus:ring-2 focus:ring-sena-green">
+                                Consumo de gas propano en los hornos.
+                            </button>
+                            <button onclick="checkFormative(2, 'B')" id="q2-opt-B" class="p-3 text-left border border-slate-200 rounded-lg hover:bg-slate-50 text-xs font-semibold transition focus:ring-2 focus:ring-sena-green">
+                                Consumo de energía eléctrica del Torno CNC de la red pública.
+                            </button>
+                            <button onclick="checkFormative(2, 'C')" id="q2-opt-C" class="p-3 text-left border border-slate-200 rounded-lg hover:bg-slate-50 text-xs font-semibold transition focus:ring-2 focus:ring-sena-green">
+                                Consumo de gasolina para la camioneta de reparto.
+                            </button>
+                        </div>
+                        <!-- Retroalimentación inmediata -->
+                        <div id="q2-feedback" class="p-3 rounded-lg text-xs font-bold hidden flex items-center gap-2" role="alert"></div>
+                    </div>
+
+                    <!-- PANTALLA DE RESUMEN DE EVALUACIÓN DIFERIDA (Se muestra al responder ambas) -->
+                    <div id="formative-summary" class="bg-slate-50 border border-slate-200 rounded-xl p-4 hidden" role="status">
+                        <h4 class="font-bold text-slate-800 text-sm mb-2">📋 Resumen Formativo Diferido:</h4>
+                        <p id="formative-summary-text" class="text-xs text-slate-600 mb-3"></p>
+                        <div id="formative-recommendations" class="space-y-1.5 text-xs font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ORIENTACIÓN PEDAGÓGICA (Gagné 5: Consejos de procesamiento) -->
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                <h4 class="font-bold text-blue-900 text-sm flex items-center gap-2">
+                    📌 Directriz de Aprendizaje:
+                </h4>
+                <p class="text-xs text-blue-800 mt-1">
+                    Para asimilar este contenido, asocia cada color de contenedor con un residuo de uso diario. Recuerda la norma nemotécnica colombiana: <strong>Blanco</strong> (Aprovechable/Limpio), <strong>Verde</strong> (Comida/Naturaleza), <strong>Negro</strong> (Inservible) y <strong>Rojo</strong> (Riesgo total).
+                </p>
+            </div>
+
+            <!-- Botones de Navegación del Aprendiz -->
+            <div class="flex justify-between pt-4">
+                <button onclick="goToSection('micro1')" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 px-6 rounded-lg transition-all flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Atrás
+                </button>
+                <button onclick="goToSection('micro3')" class="bg-sena-green hover:bg-sena-focus text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all flex items-center gap-2">
+                    Ir al Simulador Práctico
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+            </div>
+        </section>
+
+
+        <!-- ==================== MICRO 3: LA APLICACIÓN ==================== -->
+        <!-- Gagné 6: Oportunidad de desempeño (Práctica interactiva + Evaluación de Toma de Decisiones en escenarios críticos) -->
+        <section id="micro3" class="fade-in space-y-6 hidden">
+            <div class="text-center max-w-2xl mx-auto">
+                <h2 class="text-2xl font-extrabold text-slate-800">🛠️ Laboratorio e Incidentes en "EcoInd"</h2>
+                <p class="text-slate-600 text-sm mt-1">
+                    Como Técnico del SENA, debes tomar decisiones operativas ante incidentes reales del sector productivo. Resuelve los desafíos prácticos planteados.
+                </p>
+            </div>
+
+            <!-- PARTE A: EVALUACIÓN BASADA EN ESCENARIO / SITUACIÓN CRÍTICA (Toma de Decisiones sin memorización) -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6" role="region" aria-labelledby="scenario-title">
+                <div class="border-b border-slate-100 pb-3 mb-4">
+                    <span class="bg-red-100 text-red-800 text-xs font-bold uppercase px-2.5 py-1 rounded-md mb-2 inline-block">Caso de Estudio Crítico</span>
+                    <h3 id="scenario-title" class="text-lg font-bold text-slate-800">🚨 Incidente: Derrame de Refrigerante Químico</h3>
+                    <p class="text-xs text-slate-500 mt-1">
+                        Durante la operación en el Torno CNC de "EcoInd", un operario rompe accidentalmente una manguera de alimentación, derramando <strong>5 galones de refrigerante emulsionado (aceite soluble en agua)</strong> directo sobre el piso de concreto, muy cerca de la rejilla de aguas lluvias.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <p class="text-xs font-bold text-slate-700">¿Cuál es tu decisión técnica e inmediata para mitigar este desastre ambiental?</p>
+                    
+                    <div class="grid grid-cols-1 gap-3">
+                        <button onclick="submitScenarioChoice('A')" id="scen-btn-A" class="p-4 text-left border border-slate-200 rounded-xl hover:bg-slate-50 transition flex flex-col gap-1 focus:ring-2 focus:ring-sena-green">
+                            <span class="font-bold text-xs text-slate-800">Acción A: Dilución inmediata con mangueras de agua limpia.</span>
+                            <span class="text-xs text-slate-500 font-medium">Lavar a presión para arrastrar el refrigerante por el drenaje común para despejar la zona de trabajo rápido.</span>
+                        </button>
+
+                        <button onclick="submitScenarioChoice('B')" id="scen-btn-B" class="p-4 text-left border border-slate-200 rounded-xl hover:bg-slate-50 transition flex flex-col gap-1 focus:ring-2 focus:ring-sena-green">
+                            <span class="font-bold text-xs text-slate-800">Acción B: Contención inerte, recolección como RESPEL y reporte oficial.</span>
+                            <span class="text-xs text-slate-500 font-medium">Bloquear el paso a la rejilla de aguas lluvias, esparcir material absorbente (aserrín/arena), recoger en bolsas rojas y etiquetarlo para gestor autorizado.</span>
+                        </button>
+
+                        <button onclick="submitScenarioChoice('C')" id="scen-btn-C" class="p-4 text-left border border-slate-200 rounded-xl hover:bg-slate-50 transition flex flex-col gap-1 focus:ring-2 focus:ring-sena-green">
+                            <span class="font-bold text-xs text-slate-800">Acción C: Dejar secar por evaporación natural y ventilar las ventanas.</span>
+                            <span class="text-xs text-slate-500 font-medium">Detener el torno, encender extractores industriales y esperar que el sol evapore el líquido para barrer las trazas secas.</span>
+                        </button>
+                    </div>
+
+                    <!-- Retroalimentación Pedagógica de la Decisión del Taller -->
+                    <div id="scenario-feedback" class="p-4 rounded-xl text-sm font-medium hidden" role="alert"></div>
+                </div>
+            </div>
+
+            <!-- PARTE B: SIMULADOR DE CLASIFICACIÓN DE RESIDUOS -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+                <h3 class="text-lg font-bold text-slate-800 mb-2">Paso 1: Clasificación Crítica en la Fuente</h3>
+                <p class="text-xs text-slate-500 mb-4">Selecciona cada elemento para enviarlo al contenedor adecuado y lograr que "EcoInd" pase la auditoría sanitaria nacional.</p>
+                
+                <!-- Tablero de Residuos por clasificar -->
+                <div class="bg-slate-100 p-4 rounded-lg mb-6">
+                    <span class="text-xs font-bold text-slate-500 uppercase block mb-3">Residuos Acumulados en el Piso del Taller:</span>
+                    <div class="flex flex-wrap gap-3 justify-center" id="waste-pool" role="list">
+                        <!-- Botones interactivos accesibles por teclado -->
+                        <button onclick="selectWaste('waste-1')" id="waste-1" data-type="red" class="bg-white border-2 border-slate-300 hover:border-red-500 text-slate-700 font-medium py-2 px-4 rounded-full shadow-sm text-sm transition focus:ring-2 focus:ring-offset-2 focus:ring-red-500" role="listitem">
+                            🛢️ Envase de Solvente Químico
+                        </button>
+                        <button onclick="selectWaste('waste-2')" id="waste-2" data-type="white" class="bg-white border-2 border-slate-300 hover:border-slate-500 text-slate-700 font-medium py-2 px-4 rounded-full shadow-sm text-sm transition focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" role="listitem">
+                            ⚙️ Virutas de Acero Limpias
+                        </button>
+                        <button onclick="selectWaste('waste-3')" id="waste-3" data-type="black" class="bg-white border-2 border-slate-300 hover:border-slate-800 text-slate-700 font-medium py-2 px-4 rounded-full shadow-sm text-sm transition focus:ring-2 focus:ring-offset-2 focus:ring-slate-800" role="listitem">
+                            🥡 Envolturas de comida con grasa
+                        </button>
+                        <button onclick="selectWaste('waste-4')" id="waste-4" data-type="green" class="bg-white border-2 border-slate-300 hover:border-emerald-500 text-slate-700 font-medium py-2 px-4 rounded-full shadow-sm text-sm transition focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500" role="listitem">
+                            🍌 Cáscaras de fruta de la cocina
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Los Contenedores Interactivos de Destino -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <button onclick="dropIntoBin('white')" class="bin-white p-4 rounded-xl flex flex-col items-center justify-center transition-all hover:scale-105 min-h-[140px] shadow" aria-label="Contenedor Blanco: Aprovechables">
+                        <span class="text-3xl mb-2">🗑️</span>
+                        <span class="font-bold text-sm block">Blanco</span>
+                        <span class="text-[10px] uppercase tracking-wider">Aprovechables</span>
+                    </button>
+                    <button onclick="dropIntoBin('black')" class="bin-black p-4 rounded-xl flex flex-col items-center justify-center transition-all hover:scale-105 min-h-[140px] shadow" aria-label="Contenedor Negro: No Aprovechables">
+                        <span class="text-3xl mb-2">🗑️</span>
+                        <span class="font-bold text-sm block">Negro</span>
+                        <span class="text-[10px] uppercase tracking-wider">No Aprovechables</span>
+                    </button>
+                    <button onclick="dropIntoBin('green')" class="bin-green p-4 rounded-xl flex flex-col items-center justify-center transition-all hover:scale-105 min-h-[140px] shadow" aria-label="Contenedor Verde: Orgánicos">
+                        <span class="text-3xl mb-2">🗑️</span>
+                        <span class="font-bold text-sm block">Verde</span>
+                        <span class="text-[10px] uppercase tracking-wider">Orgánicos</span>
+                    </button>
+                    <button onclick="dropIntoBin('red')" class="bin-red p-4 rounded-xl flex flex-col items-center justify-center transition-all hover:scale-105 min-h-[140px] shadow" aria-label="Contenedor Rojo: Peligrosos">
+                        <span class="text-3xl mb-2">⚠️</span>
+                        <span class="font-bold text-sm block">Rojo</span>
+                        <span class="text-[10px] uppercase tracking-wider">Peligrosos (RESPEL)</span>
+                    </button>
+                </div>
+
+                <!-- Feedback del Simulador de Residuos -->
+                <div id="sim-feedback-residuos" class="mt-4 p-3 rounded-lg text-center font-bold text-sm hidden" role="alert"></div>
+            </div>
+
+            <!-- PARTE C: OPTIMIZADOR DE EFICIENCIA ENERGÉTICA -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+                <h3 class="text-lg font-bold text-slate-800 mb-2">Paso 2: Mitigación de Emisiones del Torno CNC</h3>
+                <p class="text-xs text-slate-500 mb-4">El torno CNC consume energía continuamente. Ajusta los parámetros de uso ecológico para reducir las emisiones de carbono estimadas.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                    <div class="space-y-4">
+                        <div>
+                            <label for="hours-slider" class="block text-sm font-bold text-slate-700">Horas de Operación Diaria:</label>
+                            <input type="range" id="hours-slider" min="1" max="24" value="16" class="w-full accent-sena-green cursor-pointer mt-1" oninput="calculateEmissions()">
+                            <span id="hours-val" class="text-xs font-bold text-sena-green block mt-1">16 horas</span>
+                        </div>
+                        <div>
+                            <label for="mode-select" class="block text-sm font-bold text-slate-700">Modo de Eficiencia:</label>
+                            <select id="mode-select" class="w-full p-2 border border-slate-300 rounded-lg mt-1" onchange="calculateEmissions()">
+                                <option value="standard">Modo Convencional (0.42 kg CO2 / kWh)</option>
+                                <option value="eco">Modo Eco - Apagado Inteligente (0.28 kg CO2 / kWh)</option>
+                                <option value="solar">Energía Solar Propia (0.05 kg CO2 / kWh)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 text-white p-6 rounded-xl text-center shadow-inner">
+                        <span class="text-xs text-slate-400 font-bold uppercase block">Emisiones Diarias Estimadas ($CO_2e$)</span>
+                        <!-- Visualizador Digital de Resultados -->
+                        <div class="text-4xl font-extrabold text-sena-green my-2" id="emission-result">
+                            0.0 kg CO2
+                        </div>
+                        <p class="text-[10px] text-slate-400">
+                            Basado en consumo nominal de 15 kW por hora de máquina.
+                        </p>
+                        <div id="ecological-feedback" class="mt-3 text-xs text-emerald-300 font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones de Navegación del Aprendiz -->
+            <div class="flex justify-between pt-4">
+                <button onclick="goToSection('micro2')" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 px-6 rounded-lg transition-all flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Atrás
+                </button>
+                <button onclick="goToSection('micro4')" class="bg-sena-green hover:bg-sena-focus text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all flex items-center gap-2">
+                    Continuar al Cuestionario Evaluativo
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+            </div>
+        </section>
+
+
+        <!-- ==================== MICRO 4: EVALUACIÓN Y GAMIFICACIÓN ==================== -->
+        <!-- Gagné 7: Retroalimentación | Gagné 8: Evaluar desempeño | Gagné 9: Retención/Transferencia -->
+        <section id="micro4" class="fade-in space-y-6 hidden">
+            
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
+                    <h2 class="text-xl font-extrabold text-slate-800 flex items-center gap-2">
+                        🏁 Evaluación Final de Conocimiento
+                    </h2>
+                    <!-- Marcador de Puntos Global -->
+                    <div class="bg-sena-light text-sena-green font-extrabold px-4 py-2 rounded-lg border border-sena-green">
+                        PUNTOS: <span id="user-score">0</span> / 75
+                    </div>
+                </div>
+
+                <!-- Cuestionario Digital Integrado -->
+                <form id="quiz-form" onsubmit="evaluateQuiz(event)" class="space-y-6">
+                    <!-- Pregunta 1 -->
+                    <fieldset class="space-y-3">
+                        <legend class="text-sm font-bold text-slate-800">1. ¿Qué tipo de residuos deben depositarse en el contenedor de color Negro en la industria colombiana?</legend>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer text-sm">
+                                <input type="radio" name="q1" value="incorrecta" class="accent-sena-green">
+                                <span>Cartón limpio, metales secos y botellas plásticas vacías.</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer text-sm">
+                                <input type="radio" name="q1" value="correcta" class="accent-sena-green">
+                                <span>Residuos no aprovechables como servilletas sucias y cartones contaminados con comida.</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer text-sm">
+                                <input type="radio" name="q1" value="incorrecta-respel" class="accent-sena-green">
+                                <span>Aceites automotrices y envases de pinturas disolventes.</span>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <!-- Pregunta 2 -->
+                    <fieldset class="space-y-3">
+                        <legend class="text-sm font-bold text-slate-800">2. Si manejas residuos clasificados como RESPEL (Peligrosos) en tu taller, ¿cuál es la ruta obligatoria según la normativa?</legend>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer text-sm">
+                                <input type="radio" name="q2" value="incorrecta" class="accent-sena-green">
+                                <span>Mezclarlos con plásticos reciclables para diluir su peligrosidad y verterlos en el drenaje común.</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer text-sm">
+                                <input type="radio" name="q2" value="correcta" class="accent-sena-green">
+                                <span>Confinarlos en contenedores rojos etiquetados y entregarlos a un gestor de residuos con licencia ambiental.</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer text-sm">
+                                <input type="radio" name="q2" value="incorrecta2" class="accent-sena-green">
+                                <span>Quemarlos de noche de manera aislada en áreas abiertas para mitigar el volumen del residuo.</span>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <!-- Pregunta 3 -->
+                    <fieldset class="space-y-3">
+                        <legend class="text-sm font-bold text-slate-800">3. ¿A qué tipo de emisión corresponde la generada indirectamente por el consumo de energía eléctrica de la maquinaria industrial (tornos, soldaduras, etc.)?</legend>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer text-sm">
+                                <input type="radio" name="q3" value="correcta" class="accent-sena-green">
+                                <span>Alcance 2 (Emisiones indirectas por electricidad).</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer text-sm">
+                                <input type="radio" name="q3" value="incorrecta" class="accent-sena-green">
+                                <span>Alcance 1 (Emisiones directas de combustión interna).</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer text-sm">
+                                <input type="radio" name="q3" value="incorrecta2" class="accent-sena-green">
+                                <span>Alcance 3 (Emisiones indirectas por transporte aéreo).</span>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <!-- Pregunta 4 -->
+                    <fieldset class="space-y-3">
+                        <legend class="text-sm font-bold text-slate-800">4. ¿Cuál de las siguientes acciones genera la mayor reducción en las emisiones de CO2 de un proceso industrial?</legend>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer text-sm">
+                                <input type="radio" name="q4" value="incorrecta" class="accent-sena-green">
+                                <span>Dejar la maquinaria encendida continuamente para evitar la sobretensión eléctrica de arranque.</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer text-sm">
+                                <input type="radio" name="q4" value="incorrecta2" class="accent-sena-green">
+                                <span>Aumentar la temperatura de los hornos sin control de precalentamiento.</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer text-sm">
+                                <input type="radio" name="q4" value="correcta" class="accent-sena-green">
+                                <span>Implementar el modo eco de apagado programado y migrar a fuentes de energía solar/autoconsumo renovable.</span>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <!-- Mensajes de Error o Validación en Vivo -->
+                    <div id="quiz-alert" class="hidden p-4 rounded-lg font-bold text-sm text-center" role="alert"></div>
+
+                    <!-- Botón de Envío del Cuestionario -->
+                    <div class="pt-4">
+                        <button type="submit" class="w-full bg-sena-green hover:bg-sena-focus text-white font-extrabold py-4 px-6 rounded-xl shadow-lg transition duration-200 transform active:scale-[0.98]">
+                            Enviar Respuestas de Evaluación
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- TRANSFERENCIA Y ACCIONES FUTURAS (Gagné 9: Retención y transferencia) -->
+            <div class="bg-slate-900 text-white rounded-xl p-6 shadow-md border-t-4 border-sena-green">
+                <h3 class="text-lg font-bold text-sena-green mb-2">🚀 Transferencia a la Realidad Laboral</h3>
+                <p class="text-sm text-slate-300">
+                    Como egresado o aprendiz SENA, tu misión en las empresas colombianas es liderar procesos limpios. Aplica lo aprendido: audita el uso de recipientes en tu actual centro de formación, en tu hogar o en tu puesto de trabajo. ¡Un pequeño cambio de hábitos reduce exponencialmente los gases de efecto invernadero!
+                </p>
+            </div>
+
+            <!-- Botones de Navegación del Aprendiz -->
+            <div class="flex justify-start pt-4">
+                <button onclick="goToSection('micro3')" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 px-6 rounded-lg transition-all flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Atrás
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PIE DE PÁGINA ACCESIBLE -->
+    <footer class="bg-slate-800 text-slate-400 py-6 px-6 mt-12 text-center text-xs">
+        <div class="max-w-6xl mx-auto space-y-2">
+            <p>© 2026 Servicio Nacional de Aprendizaje (SENA) - Colombia. Todos los derechos reservados.</p>
+            <p>Este sistema interactivo cumple con las pautas de accesibilidad para el contenido web WCAG 2.1 (Nivel AA) y promueve el diseño universal para el aprendizaje (DUA).</p>
+        </div>
+    </footer>
+
+
+    <!-- ==================== MODAL DE INSIGNIA DIGITAL (SISTEMA DE GAMIFICACIÓN) ==================== -->
+    <div id="badge-modal" class="fixed inset-0 bg-slate-900 bg-opacity-75 z-50 flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl text-center border-t-8 border-sena-green transform scale-95 transition-transform duration-300 ease-out" id="modal-content">
+            <!-- Emisión de confeti o destellos simbólicos -->
+            <div class="w-24 h-24 mx-auto bg-emerald-100 rounded-full flex items-center justify-center text-sena-green mb-4 border-4 border-sena-green">
+                <svg class="w-16 h-16 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z"></path></svg>
+            </div>
+
+            <h3 id="modal-title" class="text-2xl font-extrabold text-slate-800">🎖️ ¡Líder Ambiental Obtenido!</h3>
+            <p class="text-sm font-semibold text-sena-green mt-1">Insignia de Competencia Técnica en Sostenibilidad</p>
+            
+            <p class="text-slate-600 text-sm mt-4 leading-relaxed">
+                ¡Espectacular! Has resuelto de forma perfecta los desafíos teóricos y prácticos de la "EcoInd", demostrando un dominio absoluto (100% de los puntos) de las competencias ambientales requeridas.
+            </p>
+
+            <div class="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-200 text-xs text-slate-500">
+                <strong>ID de Certificación Digital:</strong> <span id="badge-uuid">GEN-00000-0000</span>
+            </div>
+
+            <div class="mt-6 flex flex-col gap-2">
+                <button onclick="closeBadgeModal()" class="w-full bg-sena-green hover:bg-sena-focus text-white font-extrabold py-3 px-6 rounded-xl transition duration-150">
+                    Continuar y Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==================== LÓGICA JAVASCRIPT ==================== -->
+    <script>
+        // VARIABLE GLOBAL DE PUNTUACIÓN (Gamificación Robusta)
+        let formativeScore = 0;       // Micro 2: Formativo (Max 20 pts)
+        let scenarioScore = 0;        // Micro 3: Escenario Toma de Decisiones (Max 15 pts)
+        let sortingCompletePoints = 0;// Micro 3: Simulador Clasificación de residuos (Max 5 pts)
+        let finalQuizScore = 0;       // Micro 4: Evaluación final técnica (Max 40 pts)
+        
+        let totalPoints = 0;          // Sumatoria global en tiempo real (Max 80 pts)
+
+        // Control del Simulador Práctico (Micro 3)
+        let selectedWasteId = null;
+        let classifiedCount = 0;
+        const totalWastes = 4;
+
+        // Respuestas de evaluación formativa del Micro 2
+        let m2Answers = { q1: null, q2: null };
+
+        // EJECUCIÓN INICIAL AL CARGAR EL DOM
+        window.onload = function() {
+            calculateEmissions();
+            updateProgress(10);
+            updateGlobalScore();
+        }
+
+        // CONTROL DE NAVEGACIÓN ENTRE MICROS (SPA Style)
+        function goToSection(sectionId) {
+            const sections = ['micro1', 'micro2', 'micro3', 'micro4'];
+            
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                const navBtn = document.getElementById('nav-' + id);
+                
+                if (id === sectionId) {
+                    el.classList.remove('hidden');
+                    navBtn.className = "w-full py-3 px-4 rounded-lg bg-sena-green text-white border-b-4 border-green-800 flex items-center justify-center gap-2 transition";
+                    navBtn.setAttribute('aria-current', 'page');
+                } else {
+                    el.classList.add('hidden');
+                    navBtn.className = "w-full py-3 px-4 rounded-lg bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 flex items-center justify-center gap-2 transition";
+                    navBtn.removeAttribute('aria-current');
+                }
+            });
+
+            // Actualizar la barra de progreso global según el micro seleccionado
+            let progressPercentage = 10;
+            if (sectionId === 'micro2') progressPercentage = 40;
+            if (sectionId === 'micro3') progressPercentage = 70;
+            if (sectionId === 'micro4') progressPercentage = 95;
+            
+            updateProgress(progressPercentage);
+            document.getElementById('main-content').focus();
+        }
+
+        // FUNCIÓN PARA ACTUALIZAR LA BARRA DE PROGRESO DE ACCESIBILIDAD
+        function updateProgress(value) {
+            const progressBar = document.getElementById('global-progress');
+            const progressText = document.getElementById('progress-text');
+            
+            progressBar.style.width = value + '%';
+            progressBar.setAttribute('aria-valuenow', value);
+            progressText.innerText = 'Progreso: ' + value + '%';
+        }
+
+        // ACTUALIZACIÓN UNIFICADA DE PUNTUACIÓN GLOBAL
+        function updateGlobalScore() {
+            totalPoints = formativeScore + scenarioScore + sortingCompletePoints + finalQuizScore;
+            
+            // Actualizar interfaz visual
+            const scoreDisplay = document.getElementById('user-score');
+            if (scoreDisplay) {
+                scoreDisplay.innerText = totalPoints;
+            }
+        }
+
+        // CONTROL DE TABS INTERACTIVOS (Micro 2 - DUA Organizado)
+        function switchTab(tabIndex) {
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById('panel-' + i).classList.add('hidden');
+                const btn = document.getElementById('tab-btn-' + i);
+                btn.className = "flex-1 py-4 px-4 text-center font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-700 hover:bg-slate-100";
+                btn.setAttribute('aria-selected', 'false');
+                btn.setAttribute('tabindex', '-1');
+            }
+
+            document.getElementById('panel-' + tabIndex).classList.remove('hidden');
+            const activeBtn = document.getElementById('tab-btn-' + tabIndex);
+            activeBtn.className = "flex-1 py-4 px-4 text-center font-bold text-sena-green border-b-2 border-sena-green focus:bg-white";
+            activeBtn.setAttribute('aria-selected', 'true');
+            activeBtn.removeAttribute('tabindex');
+        }
+
+
+        // ==================== LÓGICA: EVALUACIÓN DIAGNÓSTICA (MICRO 1) ====================
+        function submitDiagnostic(event) {
+            event.preventDefault();
+            const form = document.getElementById('diagnostic-form');
+            const choice = form.elements['diag-choice'].value;
+
+            if (!choice) return;
+
+            // Deshabilitar el formulario para evitar múltiples envíos
+            const inputs = form.querySelectorAll('input, button');
+            inputs.forEach(i => i.disabled = true);
+
+            // Mostrar retroalimentación diagnóstica neutral
+            const feedbackContainer = document.getElementById('diagnostic-feedback');
+            feedbackContainer.classList.remove('hidden');
+
+            // Comunicar de estado a tecnologías asistivas sin cambiar el foco (WCAG 4.1.3)
+            announceState("Sondeo diagnóstico enviado correctamente. Se ha desbloqueado la retroalimentación neutral.");
+        }
+
+
+        // ==================== LÓGICA: EVALUACIÓN FORMATIVA (MICRO 2) ====================
+        function checkFormative(questionId, option) {
+            const feedbackEl = document.getElementById(`q${questionId}-feedback`);
+            
+            if (questionId === 1) {
+                m2Answers.q1 = option;
+                // Deshabilitar botones de la pregunta 1
+                const buttons = document.querySelectorAll('#form-q1-container button');
+                buttons.forEach(b => b.classList.add('opacity-60', 'pointer-events-none'));
+                
+                if (option === 'B') {
+                    formativeScore += 10;
+                    feedbackEl.className = "p-3 rounded-lg text-xs font-bold text-emerald-800 bg-emerald-50 flex items-center gap-2 mt-2";
+                    feedbackEl.innerHTML = "<span>✅ Correcto:</span> El trapo con aceite usado contiene hidrocarburos con propiedades inflamables y tóxicas. Pertenece a la categoría RESPEL y debe confinarse en el contenedor Rojo.";
+                    announceState("Respuesta enviada correctamente. Opción correcta. Trapos impregnados de grasa corresponden al contenedor rojo de RESPEL.");
+                } else {
+                    feedbackEl.className = "p-3 rounded-lg text-xs font-bold text-red-800 bg-red-50 flex items-center gap-2 mt-2";
+                    feedbackEl.innerHTML = "<span>❌ Incorrecto:</span> El aceite usado es un residuo industrial peligroso (RESPEL). No puede ir en el contenedor negro (ordinarios) ni en el blanco (aprovechables secos). Requiere contenedor Rojo.";
+                    announceState("Respuesta enviada correctamente. Opción incorrecta. Trapos de grasa automotriz requieren manejo RESPEL, contenedor rojo.");
+                }
+                feedbackEl.classList.remove('hidden');
+            } 
+            else if (questionId === 2) {
+                m2Answers.q2 = option;
+                // Deshabilitar botones de la pregunta 2
+                const buttons = document.querySelectorAll('#form-q2-container button');
+                buttons.forEach(b => b.classList.add('opacity-60', 'pointer-events-none'));
+
+                if (option === 'B') {
+                    formativeScore += 10;
+                    feedbackEl.className = "p-3 rounded-lg text-xs font-bold text-emerald-800 bg-emerald-50 flex items-center gap-2 mt-2";
+                    feedbackEl.innerHTML = "<span>✅ Correcto:</span> El consumo eléctrico de la maquinaria de red pública genera emisiones indirectas clasificadas como Alcance 2.";
+                    announceState("Respuesta enviada correctamente. Opción correcta. La energía eléctrica de red corresponde al Alcance 2.");
+                } else {
+                    feedbackEl.className = "p-3 rounded-lg text-xs font-bold text-red-800 bg-red-50 flex items-center gap-2 mt-2";
+                    feedbackEl.innerHTML = "<span>❌ Incorrecto:</span> El gas en los hornos y la gasolina del camión son combustibles quemados directamente in-situ (Alcance 1). La energía eléctrica externa corresponde al Alcance 2.";
+                    announceState("Respuesta enviada correctamente. Opción incorrecta. El consumo eléctrico externo de red representa el Alcance 2 de emisiones.");
+                }
+                feedbackEl.classList.remove('hidden');
+            }
+
+            updateGlobalScore();
+
+            // Evaluar si se han respondido ambas preguntas para mostrar el Resumen Diferido
+            if (m2Answers.q1 !== null && m2Answers.q2 !== null) {
+                renderFormativeSummary();
+            }
+        }
+
+        // Pantalla de resumen de evaluación diferida (Gagné 8 / WCAG 4.1.3)
+        function renderFormativeSummary() {
+            const summaryContainer = document.getElementById('formative-summary');
+            const summaryText = document.getElementById('formative-summary-text');
+            const recsContainer = document.getElementById('formative-recommendations');
+
+            recsContainer.innerHTML = ''; // Limpiar anteriores
+
+            let correctCount = 0;
+            if (m2Answers.q1 === 'B') correctCount++;
+            if (m2Answers.q2 === 'B') correctCount++;
+
+            summaryText.innerHTML = `Has completado la evaluación formativa intermedia. Obtuviste un puntaje de <strong>${formativeScore} / 20 puntos</strong> formativos acumulados.`;
+            
+            // Evaluar errores y generar recomendaciones de estudio específicas (Feedback Diferido)
+            if (m2Answers.q1 !== 'B') {
+                const li = document.createElement('div');
+                li.className = "p-2 bg-red-50 text-red-900 border-l-4 border-red-500 rounded-r-md";
+                li.innerHTML = "⚠️ <strong>Recomendación:</strong> Fallaste en la clasificación industrial. Te sugerimos revisar los contenidos de la <strong>Pestaña 2 (Residuos Peligrosos RESPEL)</strong> para consolidar las normativas de seguridad.";
+                recsContainer.appendChild(li);
+            } else {
+                const li = document.createElement('div');
+                li.className = "p-2 bg-emerald-50 text-emerald-900 border-l-4 border-emerald-500 rounded-r-md";
+                li.innerHTML = "✨ <strong>Felicidades:</strong> Comprendes de manera óptima la clasificación especial de residuos del sector de producción.";
+                recsContainer.appendChild(li);
+            }
+
+            if (m2Answers.q2 !== 'B') {
+                const li = document.createElement('div');
+                li.className = "p-2 bg-red-50 text-red-900 border-l-4 border-red-500 rounded-r-md mt-2";
+                li.innerHTML = "⚠️ <strong>Recomendación:</strong> Te sugerimos repasar la <strong>Pestaña 3 (Mitigación y Huella de Carbono)</strong> para comprender a profundidad los límites de alcance y su mitigación.";
+                recsContainer.appendChild(li);
+            } else {
+                const li = document.createElement('div');
+                li.className = "p-2 bg-emerald-50 text-emerald-900 border-l-4 border-emerald-500 rounded-r-md mt-2";
+                li.innerHTML = "✨ <strong>Felicidades:</strong> Lograste asimilar y diferenciar los alcances de emisión de carbono para la eficiencia del taller.";
+                recsContainer.appendChild(li);
+            }
+
+            summaryContainer.classList.remove('hidden');
+            announceState("Evaluación formativa completada. Resumen de resultados cargado al final del Micro 2.");
+        }
+
+
+        // ==================== LÓGICA: MICRO 3 - APLICACIÓN Y TOMA DE DECISIONES ====================
+        function submitScenarioChoice(option) {
+            const feedbackEl = document.getElementById('scenario-feedback');
+            
+            // Deshabilitar todos los botones de decisión del incidente
+            for (let char of ['A', 'B', 'C']) {
+                const btn = document.getElementById(`scen-btn-${char}`);
+                btn.classList.add('opacity-60', 'pointer-events-none');
+                btn.classList.remove('border-sena-green', 'bg-emerald-50');
+            }
+
+            const selectedBtn = document.getElementById(`scen-btn-${option}`);
+            selectedBtn.classList.remove('opacity-60');
+            selectedBtn.classList.add('border-sena-green', 'bg-emerald-50');
+
+            if (option === 'B') {
+                scenarioScore = 15;
+                feedbackEl.className = "p-4 rounded-xl text-sm font-semibold bg-emerald-50 text-emerald-900 border border-emerald-200 mt-4";
+                feedbackEl.innerHTML = "🎯 <strong>¡Excelente decisión técnica (+15 puntos)!</strong> Contener el derrame de inmediato con material absorbente inerte y reportar evita sanciones extremas corporativas y una catástrofe ecológica severa en los acuíferos locales. Has manejado la contingencia de forma profesional.";
+                announceState("Derrame de refrigerante resuelto de forma excelente. Sumaste 15 puntos globales.");
+            } else if (option === 'A') {
+                scenarioScore = 0;
+                feedbackEl.className = "p-4 rounded-xl text-sm font-semibold bg-red-50 text-red-900 border border-red-200 mt-4";
+                feedbackEl.innerHTML = "❌ <strong>Decisión Técnica Incorrecta (0 puntos):</strong> Diluir los aceites con agua hacia el alcantarillado directo traslada la contaminación directamente a ríos y quebradas, infringiendo las normativas penales de gestión ambiental corporativa en Colombia. ¡Nunca viertas químicos directos!";
+                announceState("Derrame resuelto de forma errónea. Esta acción viola las normativas ambientales.");
+            } else if (option === 'C') {
+                scenarioScore = 5;
+                feedbackEl.className = "p-4 rounded-xl text-sm font-semibold bg-amber-50 text-amber-900 border border-amber-200 mt-4";
+                feedbackEl.innerHTML = "⚠️ <strong>Decisión Parcialmente Riesgosa (+5 puntos):</strong> Dejar evaporar de forma pasiva libera compuestos orgánicos volátiles peligrosos a la atmósfera del taller de EcoInd, además de permitir la penetración de trazas químicas por los poros de concreto. Falta acción correctiva inmediata.";
+                announceState("Derrame resuelto parcialmente con opción de evaporación. Es riesgoso por emisiones de gases volátiles.");
+            }
+
+            feedbackEl.classList.remove('hidden');
+            updateGlobalScore();
+        }
+
+        // Seleccionar residuo del taller (Simulador)
+        function selectWaste(wasteId) {
+            if (selectedWasteId) {
+                document.getElementById(selectedWasteId).classList.remove('ring-4', 'ring-sena-green');
+            }
+
+            selectedWasteId = wasteId;
+            document.getElementById(wasteId).classList.add('ring-4', 'ring-sena-green');
+            
+            const wasteText = document.getElementById(wasteId).innerText;
+            announceState(`Has seleccionado ${wasteText}. Elige un contenedor para depositarlo.`);
+        }
+
+        // Depositar residuo seleccionado en un contenedor (Simulador)
+        function dropIntoBin(binColor) {
+            if (!selectedWasteId) {
+                showSimFeedback("❌ Selecciona primero uno de los residuos del taller haciendo clic sobre él.", "bg-amber-100 text-amber-900");
+                return;
+            }
+
+            const element = document.getElementById(selectedWasteId);
+            const correctColor = element.getAttribute('data-type');
+
+            if (binColor === correctColor) {
+                showSimFeedback(`✨ ¡Excelente! El elemento "${element.innerText.trim()}" ha sido clasificado correctamente en el contenedor ${binColor.toUpperCase()}.`, "bg-emerald-100 text-emerald-950");
+                
+                element.classList.add('hidden');
+                selectedWasteId = null;
+                classifiedCount++;
+
+                if (classifiedCount === totalWastes) {
+                    sortingCompletePoints = 5; // Sumar 5 puntos de gamificación por completar simulador
+                    updateGlobalScore();
+                    showSimFeedback("🏆 ¡Brillante! Has clasificado la totalidad de los residuos de forma segura. Auditoría superada de manera parcial (+5 puntos).", "bg-sena-light text-sena-dark border-2 border-sena-green");
+                }
+            } else {
+                showSimFeedback(`⚠️ ¡Error! Inténtalo de nuevo. Pista: Revisa la teoría de la guía de la sección 2 sobre contenedores ${correctColor.toUpperCase()}.`, "bg-red-100 text-red-950");
+            }
+        }
+
+        function showSimFeedback(msg, cssClasses) {
+            const fb = document.getElementById('sim-feedback-residuos');
+            fb.className = `mt-4 p-4 rounded-xl font-bold text-sm text-center ${cssClasses} transition-all duration-300`;
+            fb.innerText = msg;
+            fb.classList.remove('hidden');
+            announceState(msg);
+        }
+
+        // Simulador de emisiones (Cálculos matemáticos con LaTeX en interfaz)
+        function calculateEmissions() {
+            const hours = document.getElementById('hours-slider').value;
+            const modeSelect = document.getElementById('mode-select');
+            const selectedOption = modeSelect.options[modeSelect.selectedIndex].value;
+            
+            document.getElementById('hours-val').innerText = `${hours} horas de operación`;
+
+            let factor = 0.42; 
+            if (selectedOption === 'eco') factor = 0.28;
+            if (selectedOption === 'solar') factor = 0.05;
+
+            const kwPower = 15; 
+            const emissions = (hours * kwPower * factor).toFixed(1);
+
+            document.getElementById('emission-result').innerText = `${emissions} kg CO₂e`;
+
+            const feedbackEl = document.getElementById('ecological-feedback');
+            if (emissions > 80) {
+                feedbackEl.innerText = "🚨 Huella de carbono muy alta. Activa el Modo Eco o Solar para mitigar el impacto energético.";
+                feedbackEl.className = "mt-3 text-xs text-red-400 font-semibold";
+            } else if (emissions > 20) {
+                feedbackEl.innerText = "⚡ Buen trabajo. Has reducido las emisiones. ¿Puedes optimizarlo más con energía solar?";
+                feedbackEl.className = "mt-3 text-xs text-amber-300 font-semibold";
+            } else {
+                feedbackEl.innerText = "🌱 ¡Espectacular! Mitigación ambiental óptima. Huella de carbono minimizada.";
+                feedbackEl.className = "mt-3 text-xs text-emerald-300 font-semibold";
+            }
+        }
+
+
+        // ==================== MICRO 4: EVALUACIÓN Y GAMIFICACIÓN FINAL ====================
+        function evaluateQuiz(event) {
+            event.preventDefault(); 
+
+            const form = document.getElementById('quiz-form');
+            const answers = {
+                q1: form.elements['q1'].value,
+                q2: form.elements['q2'].value,
+                q3: form.elements['q3'].value,
+                q4: form.elements['q4'].value
+            };
+
+            if (!answers.q1 || !answers.q2 || !answers.q3 || !answers.q4) {
+                const alertEl = document.getElementById('quiz-alert');
+                alertEl.innerText = "⚠️ Por favor, responde a todas las preguntas de la evaluación para continuar.";
+                alertEl.className = "p-4 rounded-lg font-bold text-sm text-center bg-red-100 text-red-950";
+                alertEl.classList.remove('hidden');
+                return;
+            }
+
+            let tempFinalScore = 0;
+            if (answers.q1 === 'correcta') tempFinalScore += 10;
+            if (answers.q2 === 'correcta') tempFinalScore += 10;
+            if (answers.q3 === 'correcta') tempFinalScore += 10;
+            if (answers.q4 === 'correcta') tempFinalScore += 10;
+
+            finalQuizScore = tempFinalScore;
+            updateGlobalScore();
+
+            const alertEl = document.getElementById('quiz-alert');
+            alertEl.classList.remove('hidden');
+
+            if (totalPoints === 75) {
+                alertEl.innerText = "🎉 ¡Excelente! Has dominado a la perfección tanto la práctica en taller como la evaluación técnica ambiental.";
+                alertEl.className = "p-4 rounded-lg font-bold text-sm text-center bg-emerald-100 text-emerald-950";
+                
+                triggerBadgeModal();
+            } else {
+                alertEl.innerText = `⚠️ Has obtenido ${totalPoints} de 75 puntos globales totales. Revisa la teoría, optimiza tus prácticas en taller e inténtalo de nuevo para lograr la puntuación perfecta y desbloquear tu Insignia.`;
+                alertEl.className = "p-4 rounded-lg font-bold text-sm text-center bg-amber-100 text-amber-950";
+            }
+        }
+
+        function triggerBadgeModal() {
+            const uuid = 'SENA-ECO-' + Math.floor(100000 + Math.random() * 900000);
+            document.getElementById('badge-uuid').innerText = uuid;
+
+            const modal = document.getElementById('badge-modal');
+            modal.classList.remove('hidden');
+            document.getElementById('modal-content').focus();
+        }
+
+        function closeBadgeModal() {
+            document.getElementById('badge-modal').classList.add('hidden');
+        }
+
+
+        // ==================== AUXILIAR: ANUNCIADOR DE ESTADO EN VIVO ====================
+        function announceState(message) {
+            const ariaAnnouncer = document.getElementById('aria-state-announcer');
+            if (ariaAnnouncer) {
+                ariaAnnouncer.innerText = message;
+            }
+        }
+    </script>
+</body>
+</html>
